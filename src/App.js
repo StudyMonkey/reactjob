@@ -1,29 +1,26 @@
-import React, { Component } from 'react';
-import { Button } from 'antd-mobile'
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Button } from 'antd-mobile';
+import { addGun, removeGun, addGunAsync } from './index.redux'
 
+const mapStatetoProps = state => (
+  {num: state}
+)
+
+const actionCreaters = { addGun, removeGun, addGunAsync };
+
+@connect(mapStatetoProps, actionCreaters)
 class App extends Component {
   render() {
+    const { addGun, removeGun, addGunAsync, num } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Button type="primary">新兵入伍</Button>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Button type="primary" onClick={addGun}>申请武器</Button>
+        <Button onClick={removeGun}>上交武器</Button>
+        <Button onClick={ addGunAsync }>拖两天再给</Button>
+        <h1>现在有机枪{num}把</h1>
       </div>
-    );
+    )
   }
 }
 
