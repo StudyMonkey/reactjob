@@ -1,27 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import ReactDom from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
-import { counter } from './index.redux'
 import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import './index.css'
 
-const store = createStore(counter, compose(
+// 路由组件
+import Login from './container/login/login';
+import Register from './container/register/register'
+import AuthRoute from './component/authroute/authroute'
+
+import reducers from './Reducer'
+import './config'
+
+const store = createStore(reducers, compose(
     applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f=>f
 ));
 
-/* function render() {
-    ReactDOM.render(<App store={store} addGun={addGun} removeGun={removeGun} addGunAsync={addGunAsync} />, document.getElementById('root'));
+function Boss(){
+    return (
+        <h2>Boss 页面</h2>
+    )
 }
 
-render();
-
-store.subscribe(render); */
-
-ReactDOM.render(
+ReactDom.render(
     (<Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <div>
+                <AuthRoute />
+                <Route path="/boss" component={Boss} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+            </div>
+        </BrowserRouter>
     </Provider>),
     document.getElementById('root')
 )

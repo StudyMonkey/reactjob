@@ -1,16 +1,21 @@
 const app = require('express')();
-const mongoose = require('mongoose');
-// 链接mongo
-const DB_URL = 'mongodb://127.0.0.1:27017/imooc';
-mongoose.connect(DB_URL);
-mongoose.connection.on('connected', () => {
+const userRoute = require('./user');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+app.use(bodyParser.json()); // 使post请求拿到req.body的值
+app.use('/user', userRoute);
+
+
+/* mongoose.connection.on('connected', () => {
     console.log('mongodb connect success')
 })
 // 创建模型
 const User = mongoose.model('user', new mongoose.Schema({
     name: {type: String, require: true},
     age: {type: Number, require: true}
-}))
+})) */
 
 // 新增数据
 /* User.create({
@@ -25,7 +30,7 @@ const User = mongoose.model('user', new mongoose.Schema({
 }) */
 
 // 删除数据
-/* User.remove({age: 25}, (err,doc) => {
+/* User.remove({name: 'xiaonan'}, (err,doc) => {
     console.log(doc);
 }) */
 
@@ -34,7 +39,7 @@ const User = mongoose.model('user', new mongoose.Schema({
     console.log(doc);
 }) */
 
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
     res.end('Hello World\n');
 });
 
@@ -47,7 +52,7 @@ app.get('/data', (req, res) => {
         }
     })
     //res.json({name: 'xiaoMao', type: 'IT'})
-});
+}); */
 
 app.listen(9001, () => {
     console.log('Server listen 9001');
