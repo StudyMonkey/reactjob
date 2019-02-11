@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Logo from '../../component/logo/logo'
 import { Redirect } from 'react-router-dom'
-import { List, InputItem, Radio, WingBlank, WhiteSpace, Button } from 'antd-mobile'
+import { List, InputItem, Radio, WhiteSpace, Button } from 'antd-mobile'
 import { connect } from 'react-redux';
 import { register } from '../../redux/user.redux'
 
