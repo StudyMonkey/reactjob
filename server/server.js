@@ -3,10 +3,11 @@ const userRoute = require('./user');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const port = 9001;
+
 app.use(cookieParser());
 app.use(bodyParser.json()); // 使post请求拿到req.body的值
 app.use('/user', userRoute);
-
 
 /* mongoose.connection.on('connected', () => {
     console.log('mongodb connect success')
@@ -54,6 +55,6 @@ app.get('/data', (req, res) => {
     //res.json({name: 'xiaoMao', type: 'IT'})
 }); */
 
-app.listen(9001, () => {
-    console.log('Server listen 9001');
+app.listen(port, () => {
+    console.log(`Server listen ${port}`);
 })
