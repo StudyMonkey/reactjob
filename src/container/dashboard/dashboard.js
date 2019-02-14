@@ -9,6 +9,9 @@ import Genius from '../../component/genius/genius'
 import Msg from '../../component/msg/msg';
 import User from '../../component/user/user'
 
+@connect(
+  state => state
+)
 class dashboard extends Component {
   render() {
     const user = this.props.user;
@@ -48,7 +51,7 @@ class dashboard extends Component {
     return (
       <div>
         <NavBar className="fixed-header" mode="dark" leftContent="Back" >{ navList.find( v => v.path === pathname).title }</NavBar>
-        <div style={{marginTop: 45}}>
+        <div style={{marginTop: 45,marginBottom: 50}}>
             <Switch>
                 { navList.map( v => (
                     <Route key={v.path} path={v.path} component={v.component} />
@@ -61,8 +64,4 @@ class dashboard extends Component {
   }
 }
 
-const mapStatetoProps = state => state;
-
-const actionCreaters = null;
-
-export default connect(mapStatetoProps, actionCreaters)(dashboard);
+export default dashboard;

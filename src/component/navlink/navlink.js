@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import propTypes from 'prop-types'
 
+@connect(
+    state => state
+)
+@withRouter
 class navlink extends Component {
 
   static propTypes = {
@@ -32,8 +36,4 @@ class navlink extends Component {
   }
 }
 
-const mapStatetoProps = state => state;
-
-const actionCreaters = null;
-
-export default connect(mapStatetoProps, actionCreaters)(withRouter(navlink));
+export default navlink;

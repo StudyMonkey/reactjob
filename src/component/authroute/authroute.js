@@ -4,6 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { loadData } from '../../redux/user.redux'
 import { connect } from 'react-redux'
 
+@connect(
+  state => state,
+  { loadData }
+)
+@withRouter
 class AuthRoute extends Component {
 
   componentDidMount(){
@@ -34,8 +39,4 @@ class AuthRoute extends Component {
   }
 }
 
-const mapStatetoProps = null;
-
-const actionCreaters = { loadData }
-
-export default connect(mapStatetoProps, actionCreaters)(withRouter(AuthRoute));
+export default AuthRoute;

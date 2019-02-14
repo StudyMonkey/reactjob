@@ -6,6 +6,10 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { update } from '../../redux/user.redux'
 
+@connect(
+  state => state.user,
+  { update }
+)
 class GeniusInfo extends Component {
 
   constructor(props){
@@ -48,8 +52,4 @@ class GeniusInfo extends Component {
   }
 }
 
-const mapStatetoProps = state => state.user;
-
-const actionCreaters = { update }
-
-export default connect(mapStatetoProps, actionCreaters)(GeniusInfo);
+export default GeniusInfo;

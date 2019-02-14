@@ -6,6 +6,10 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { update } from '../../redux/user.redux'
 
+@connect(
+  state => state.user,
+  { update }
+)
 class BossInfo extends Component {
 
   constructor(props){
@@ -27,7 +31,7 @@ class BossInfo extends Component {
   render() {
     return (
       <div>
-        { this.props.redirectTo ? <Redirect to={this.props.redirectTo}/> : null }
+        { this.props.redirectTo&&this.props.redirectTo!== '/bossinfo' ? <Redirect to={this.props.redirectTo}/> : null }
         <NavBar leftContent="Back" mode="dark">BOSS完善信息页</NavBar>
         <WhiteSpace />
         <WingBlank>
@@ -52,8 +56,4 @@ class BossInfo extends Component {
   }
 }
 
-const mapStatetoProps = state => state.user;
-
-const actionCreaters = { update }
-
-export default connect(mapStatetoProps, actionCreaters)(BossInfo);
+export default BossInfo;

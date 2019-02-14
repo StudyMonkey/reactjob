@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import UserCard from '../usercard/usercard'
 
-export default class genius extends Component {
+class Genius extends Component {
+
   render() {
     return (
       <div>
-        <h2>genius 页面</h2>
+        <UserCard type="boss" />
       </div>
     )
   }
 }
+
+export default Genius;
