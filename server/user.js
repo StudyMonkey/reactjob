@@ -2,6 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const model = require('./model');
 const User = model.getModel('user');
+const Chat = model.getModel('chat');
 const utils = require('utility');
 const _filter = {'pwd': 0, '__v': 0};
 
@@ -83,8 +84,27 @@ Router.get('/info', function(req, res){
         if (doc) {
             return res.json({code: 0, data: doc})
         }
+    })   
+})
+
+Router.get('/getmsglist', function(req, res){
+    const user = req.cookies.userid;
+    console.log('user:',user);
+    User.find({}, function(e, userdoc){
+        let users = {};
+        console.log(userdoc);
+        userdoc.forEach( v => {
+            users[v._id] = {name: v.user, avatar: v.avatar}
+        })
+        // {'$or': [{from: user, to: user}]}
+        Chat.find({'$or': [{from: user}, {to: user}]}, function(err, doc){
+            if (err) {
+                console.log(err);
+            }
+            console.log(doc);
+            return res.json({code: 0, msgs: doc, users: users})
+        })
     })
-    
 })
 
 function md5Pwd(pwd){

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile'
 import { connect } from 'react-redux'
+import { getMsgList, recvMsg } from '../../redux/chat.redux'
 import { Switch, Route } from 'react-router-dom'
 import NavLinkBar from '../../component/navlink/navlink'
 
@@ -10,9 +11,16 @@ import Msg from '../../component/msg/msg';
 import User from '../../component/user/user'
 
 @connect(
-  state => state
+  state => state,
+  { getMsgList, recvMsg }
 )
 class dashboard extends Component {
+
+  componentDidMount(){
+    this.props.getMsgList();     
+    this.props.recvMsg();    
+  }
+
   render() {
     const user = this.props.user;
     const { pathname } = this.props.location;

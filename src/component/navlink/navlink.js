@@ -21,6 +21,7 @@ class navlink extends Component {
         <TabBar>
             { navList.map( v => 
                 (<TabBar.Item
+                    badge={v.path === '/msg' ? this.props.chat.unread : 0}
                     key={v.path}
                     title={v.text}
                     icon={{uri: require(`./img/${v.icon}.png`)}}
