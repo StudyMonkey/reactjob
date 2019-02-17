@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { List, InputItem, NavBar, Icon } from 'antd-mobile'
+import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux'
+import { getMsgList, sendMsg, recvMsg, readMsg } from '../../redux/chat.redux'
+
+import { getChatId } from '../../util'
 
 @connect(
   state => state,
-  { getMsgList, sendMsg, recvMsg }
+  { getMsgList, sendMsg, recvMsg, readMsg }
 )
 class chat extends Component {
 
@@ -19,8 +21,19 @@ class chat extends Component {
     if ( !this.props.chat.chatmsg.length) { // 如果之前没有请求
       this.props.getMsgList();     
       this.props.recvMsg(); 
-    }
-   
+    } 
+
+  }
+
+  componentWillUnmount(){
+    const to = this.props.match.params.user;
+    this.props.readMsg(to) 
+  }
+
+  fixCarsoul(){
+    setTimeout(function() {
+      window.dispatchEvent(new Event('resize'));
+    }, 0)
   }
 
   handleSend = () => {
@@ -30,17 +43,26 @@ class chat extends Component {
     const content = this.state.text;
     this.props.sendMsg({from, to, content});
     this.setState({
-      text: ''
+      text: '',
+      showEmoji: false
     })
   }
 
-  render() {
+  render() { 
+
+    const emoji = '😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴 😍 💼 😃 😄 😂 😘 😏 😴'
+                  .split(' ')
+                  .filter( v=> v)
+                  .map( v=> ({text: v}) )
+
     const userid = this.props.match.params.user
     const Item = List.Item
     const users = this.props.chat.users;
     if ( !users[userid]){
       return null;
     }
+    const chatid = getChatId(userid, this.props.user._id);
+    const chatmsgs = this.props.chat.chatmsg.filter( v => v.chatid === chatid);
     return (
       <div id="chat-page">
         <NavBar 
@@ -51,8 +73,7 @@ class chat extends Component {
           {users[userid].name}
         </NavBar>
         <div style={{ marginBottom: 45}}>
-          { this.props.chat.chatmsg.map( v => {
-            console.log(users[v.from].name);
+          { chatmsgs.map( v => {
             const avatar = require(`../img/${users[v.from].avatar}.png`)
             return v.from === userid ? 
                     (
@@ -85,9 +106,34 @@ class chat extends Component {
                         text: v
                       })
                     }}
-                    extra={<span onClick={() => this.handleSend()}>发送</span>}
+                    extra={
+                      <div>
+                        <span onClick={ () => {
+                          this.setState({
+                            showEmoji: !this.state.showEmoji
+                          })
+                          this.fixCarsoul()
+                        }} style={{marginRight: 15}}>😃</span>
+                        <span onClick={() => this.handleSend()}>发送</span>
+                      </div>                  
+                    }
                 />
             </List>
+            {
+              this.state.showEmoji ? 
+              <Grid 
+                data={emoji}
+                columnNum={9}
+                carouselMaxRow={4}
+                isCarousel={true}
+                onClick={ el => {
+                  this.setState({
+                    text: this.state.text+el.text
+                  })
+                }}
+              /> : null
+            }
+
         </div>
       </div>
     )

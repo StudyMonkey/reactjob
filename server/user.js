@@ -18,7 +18,6 @@ Router.get('/list', function(req, res){
 });
 
 Router.post('/register', function(req, res){
-    console.log(req.body);
     const { user, pwd, type } = req.body;
     User.findOne({user}, function(err, doc){
         if(doc){
@@ -44,7 +43,6 @@ Router.post('/register', function(req, res){
 })
 
 Router.post('/login', function(req, res) {
-    console.log(req.body);
     const { user, pwd } = req.body;
     User.findOne({user, pwd:md5Pwd(pwd)}, _filter, (err, doc) => {
         if( !doc ) {
@@ -72,7 +70,6 @@ Router.post('/update', function(req, res) {
 })
 
 Router.get('/info', function(req, res){
-    console.log(req.cookies);
     const { userid } = req.cookies;
     if ( !userid ) {
         return res.json({code: 1})
@@ -89,10 +86,8 @@ Router.get('/info', function(req, res){
 
 Router.get('/getmsglist', function(req, res){
     const user = req.cookies.userid;
-    console.log('user:',user);
     User.find({}, function(e, userdoc){
         let users = {};
-        console.log(userdoc);
         userdoc.forEach( v => {
             users[v._id] = {name: v.user, avatar: v.avatar}
         })
@@ -101,9 +96,23 @@ Router.get('/getmsglist', function(req, res){
             if (err) {
                 console.log(err);
             }
-            console.log(doc);
             return res.json({code: 0, msgs: doc, users: users})
         })
+    })
+})
+
+Router.post('/readmsg', function(req, res){
+    const userid = req.cookies.userid;
+    const { from } = req.body;
+    Chat.update(
+        {from, to: userid}, 
+        {'$set': {read: true}}, 
+        {'multi': true}, 
+        function(err, doc) {
+            if (!err){
+                return res.json({code: 0, num: doc.nModified})
+            }
+            return res.json({code: 1, msg: '修改失败'});
     })
 })
 
