@@ -38,6 +38,8 @@ class Register extends Component {
           </List>
           <WhiteSpace />
           <Button type="primary" onClick={this.handleRegister}>注册</Button>
+          <WhiteSpace />
+          <Button type="primary" onClick={() => this.props.history.push('/login')}>已有账号，返回登录</Button>
         </WingBlank>
         
         

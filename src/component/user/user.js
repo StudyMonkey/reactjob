@@ -47,7 +47,7 @@ class User extends Component {
         </WingBlank>
         
       </div>
-    ) : <Redirect to={props.redirectTo} />
+    ) : <Redirect to={props.redirectTo=== '' ? '/login' : ''} />
   }
 }
 
