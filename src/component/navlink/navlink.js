@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import propTypes from 'prop-types'
 
 @connect(
-    state => state
+    state => state.chat
 )
 @withRouter
 class navlink extends Component {
@@ -17,12 +17,12 @@ class navlink extends Component {
   render() {
     const navList = this.props.data.filter( v => !v.hide);
     const { pathname } = this.props.location;
-    console.log('navlink unread:', this.props.chat.unread);
+    console.log('navlink unread:', this.props.unread);
     return (
         <TabBar>
             { navList.map( v => 
                 (<TabBar.Item
-                    badge={v.path === '/msg' ? this.props.chat.unread : 0}
+                    badge={v.path === '/msg' ? this.props.unread : 0}
                     key={v.path}
                     title={v.text}
                     icon={{uri: require(`./img/${v.icon}.png`)}}
