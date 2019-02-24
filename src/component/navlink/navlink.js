@@ -17,6 +17,7 @@ class navlink extends Component {
   render() {
     const navList = this.props.data.filter( v => !v.hide);
     const { pathname } = this.props.location;
+    console.log('navlink unread:', this.props.chat.unread);
     return (
         <TabBar>
             { navList.map( v => 

@@ -14,7 +14,8 @@ io.on('connection', function(socket) {
     socket.on('sendmsg', function(data){
         const {from, to, content} = data;
         const chatid = [from,to].sort().join('_');
-        Chat.create({chatid, from, to, content}, function(err, doc){
+        const create_time = new Date().getTime();
+        Chat.create({chatid, from, to, content, create_time}, function(err, doc){debugger
             io.emit('recvmsg', Object.assign({}, doc._doc));
         })
 /*         console.log({data});

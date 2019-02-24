@@ -22,7 +22,6 @@ class chat extends Component {
       this.props.getMsgList();     
       this.props.recvMsg(); 
     } 
-
   }
 
   componentWillUnmount(){
