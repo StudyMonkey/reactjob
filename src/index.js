@@ -14,6 +14,7 @@ import BossInfo from './container/bossinfo/bossinfo';
 import GeniusInfo from './container/geniusinfo/geniusinfo';
 import Dashboard from './container/dashboard/dashboard'
 import Chat from './component/chat/chat'
+import Demo from './demo'
 
 import reducers from './Reducer'
 import './config'
@@ -45,6 +46,7 @@ ReactDom.render(
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
                     <Route path="/chat/:user" component={Chat} />
+                    <Route path="/demo" component={Demo} />
                     <Route component={Dashboard} />
                 </Switch>
             </div>
