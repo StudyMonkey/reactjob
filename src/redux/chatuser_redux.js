@@ -20,15 +20,10 @@ function userList(data){
 }
 
 export function getUserList(type){
-    return dispatch => {
-        Axios.get('/user/list?type='+type)
-        .then( res => {
-            if (res.data.code === 0) {
-                dispatch(userList(res.data.data))
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    return async dispatch => {
+        const res = Axios.get('/user/list?type='+type);
+        if (res.data.code === 0) {
+            dispatch(userList(res.data.data))
+        }
     }
 }
