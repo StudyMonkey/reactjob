@@ -50,7 +50,8 @@ export function login({user, pwd}){
     }
 
     return async dispatch => {
-        const res = Axios.post('/user/login', {user, pwd});
+        const res = await Axios.post('/user/login', {user, pwd});
+        console.log(res);
         if ( res.status === 200 && res.data.code === 0 ) {
             dispatch(authSuccess(res.data.data))
         } else {
@@ -70,7 +71,7 @@ export function register({user, pwd, repeatPwd, type}){
     }
 
     return async dispatch => {
-        const res = Axios.post('/user/register', {user, pwd, type});
+        const res = await Axios.post('/user/register', {user, pwd, type});
         if ( res.status === 200 && res.data.code === 0 ) {
             dispatch(authSuccess({user, pwd, type}))
         } else {
@@ -81,7 +82,7 @@ export function register({user, pwd, repeatPwd, type}){
 
 export function update(data) {
     return async dispatch => {
-        const res = Axios.post('/user/update', data);       
+        const res = await Axios.post('/user/update', data);       
         if ( res.status === 200 && res.data.code === 0 ) {
             dispatch(authSuccess(res.data.data))
         } else {

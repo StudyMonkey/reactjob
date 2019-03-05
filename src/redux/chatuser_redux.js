@@ -21,7 +21,7 @@ function userList(data){
 
 export function getUserList(type){
     return async dispatch => {
-        const res = Axios.get('/user/list?type='+type);
+        const res = await Axios.get('/user/list?type='+type);
         if (res.data.code === 0) {
             dispatch(userList(res.data.data))
         }
