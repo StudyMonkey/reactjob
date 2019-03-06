@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { getMsgList, recvMsg } from '../../redux/chat.redux'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route,Redirect } from 'react-router-dom'
 import NavLinkBar from '../../component/navlink/navlink'
 
 import Boss from '../../component/boss/boss'
@@ -58,9 +58,10 @@ class dashboard extends Component {
             component: User
         }                        
     ]
-    return (
+    const page = navList.find( v => v.path === pathname);
+    return page ? (
       <div>
-        <NavBar className="fixed-header" mode="dark" leftContent="Back" >{ navList.find( v => v.path === pathname).title }</NavBar>
+        <NavBar className="fixed-header" mode="dark" leftContent="Back" >{ page.title }</NavBar>
         <div style={{marginTop: 45,marginBottom: 50}}>
             <Switch>
                 { navList.map( v => (
@@ -70,7 +71,7 @@ class dashboard extends Component {
         </div>
         <NavLinkBar data={navList} />
       </div>
-    )
+    ) : <Redirect to="/msg" />
   }
 }
 
